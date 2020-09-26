@@ -29,7 +29,6 @@ namespace API
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occured during migration");
-
                 }
             }
             host.Run();
