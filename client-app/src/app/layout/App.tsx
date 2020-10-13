@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Route, RouteComponentProps, withRouter } from "react-router-dom";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Container } from "semantic-ui-react";
 import NavBar from "../../features/nav/NavBar";
@@ -8,6 +8,7 @@ import ActivityDashboard from "../../features/activities/dashboard/ActivityDashb
 import { HomePage } from "../../features/home/HomePage";
 import ActivityForm from "../../features/activities/dashboard/form/ActivityForm";
 import ActivityDetails from "../../features/activities/dashboard/details/ActivityDetails";
+import { NotFound } from "./NotFound";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Fragment>
             <NavBar />
             <Container style={{ marginTop: "7em" }}>
+              <Switch>
               <Route exact path="/activities" component={ActivityDashboard} />
               <Route path="/activities/:id" component={ActivityDetails} />
               <Route
@@ -26,6 +28,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 component={ActivityForm}
                 key={location.key}
               />
+              <Route  component={NotFound}/>
+              </Switch>
             </Container>
           </Fragment>
         )}

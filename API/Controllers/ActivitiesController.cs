@@ -25,10 +25,11 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> Details(Guid id)
         {
-            return await _mediatr.Send(new Details.Query { Id = id });
+            var res = await _mediatr.Send(new Details.Query { Id = id });
+            return res;
         }
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create([FromBody] Create.Command command)
+        public async Task<ActionResult<Unit>> Create(Create.Command command)
         {
             return await _mediatr.Send(command);
         }

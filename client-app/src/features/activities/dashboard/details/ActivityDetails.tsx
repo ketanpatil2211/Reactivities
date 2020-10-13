@@ -8,35 +8,48 @@ import ActivityDetailedHeader from "./ActivityDetailedHeader";
 import { ActivityDetailedInfo } from "./ActivityDetailedInfo";
 import { ActivityDetailedChat } from "./ActivityDetailedChat";
 import { ActivityDetailedSideBar } from "./ActivityDetailedSideBar";
+
 interface DetailParams {
   id: string;
 }
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
+  history
 }) => {
   const activityStore = useContext(ActivityStore);
 
   const { activity, loadActivity, loadingInitial } = activityStore;
 
   useEffect(() => {
-    loadActivity(match.params.id);
-  }, [loadActivity, match.params.id]);
+    loadActivity(match.params.id).catch(()=>{
+     history.push('/notfound')
 
-  if (loadingInitial || !activity) {
+    });
+  }, [loadActivity, match.params.id,history]);
+
+  if (loadingInitial) {
     return <LoadingComponent content={"Loading activity..."} />;
+ 
   }
-  return (
-    <Grid>
-      <GridColumn width={10}>
-        <ActivityDetailedHeader activity={activity} />
-        <ActivityDetailedInfo activity={activity} />
-        <ActivityDetailedChat />
-      </GridColumn>
-      <GridColumn width={6}>
-        <ActivityDetailedSideBar />
-      </GridColumn>
-    </Grid>
-  );
+  if(!activity)
+  {
+    return <h1>Not Found </h1>
+  }
+  
+    return (
+      <Grid>
+        <GridColumn width={10}>
+          <ActivityDetailedHeader activity={activity} />
+          <ActivityDetailedInfo activity={activity} />
+          <ActivityDetailedChat />
+        </GridColumn>
+        <GridColumn width={6}>
+          <ActivityDetailedSideBar />
+        </GridColumn>
+      </Grid>
+    );
+  
+  
 };
 export default observer(ActivityDetails);

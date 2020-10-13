@@ -59,7 +59,10 @@ class ActivityStore {
     let activity = this.getActivity(id);
     if (activity) {
       this.activity = activity;
+      console.log("kp");
     } else {
+      console.log("ketan");
+      console.log(this.activitiesByDate);
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);
@@ -71,7 +74,10 @@ class ActivityStore {
         runInAction(() => {
           console.log(error);
           this.loadingInitial = false;
-        });
+        })
+        console.log(error)
+        throw error;
+
       }
     }
   };
