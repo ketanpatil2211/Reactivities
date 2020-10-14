@@ -58,7 +58,7 @@ namespace API.Middleware
             {
                 var results = JsonSerializer.Serialize(new
                 {
-                    P
+
                     errors
                 });
                 await context.Response.WriteAsync(results);
