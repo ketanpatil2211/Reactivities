@@ -58,11 +58,8 @@ class ActivityStore {
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
     if (activity) {
-      this.activity = activity;
-     
+      this.activity = activity; 
     } else {
-     
-      console.log(this.activitiesByDate);
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);
@@ -72,12 +69,9 @@ class ActivityStore {
         });
       } catch (error) {
         runInAction(() => {
-          console.log(error);
           this.loadingInitial = false;
         })
         console.log(error)
-        throw error;
-
       }
     }
   };
@@ -141,8 +135,6 @@ class ActivityStore {
       });
     }
   };
-
-  
 }
 
 export default createContext(new ActivityStore());
