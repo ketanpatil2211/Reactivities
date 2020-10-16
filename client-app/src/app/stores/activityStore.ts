@@ -2,6 +2,7 @@ import { observable, action, configure, runInAction, computed } from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import agent from "../api/agent";
 import { IActivity } from "../models/activity";
+import { history} from '../..';
 configure({ enforceActions: "always" });
 
 class ActivityStore {
@@ -59,14 +60,17 @@ class ActivityStore {
     let activity = this.getActivity(id);
     if (activity) {
       this.activity = activity; 
+      return activity;
     } else {
       this.loadingInitial = true;
       try {
         activity = await agent.Activities.details(id);
         runInAction(() => {
           this.activity = activity;
+          this.activityRegistry.set(activity.id,activity);
           this.loadingInitial = false;
         });
+        return activity;
       } catch (error) {
         runInAction(() => {
           this.loadingInitial = false;
@@ -90,6 +94,7 @@ class ActivityStore {
         this.activityRegistry.set(activity.id, activity);
         this.submitting = false;
       });
+      history.push(`/activities/${activity.id}`);
     } catch (error) {
       runInAction(() => {
         console.log(console.error());
@@ -105,9 +110,9 @@ class ActivityStore {
       runInAction(() => {
         this.activityRegistry.set(activity.id, activity);
         this.activity = activity;
-       
         this.submitting = false;
       });
+      history.push(`/activities/${activity.id}`);
     } catch (error) {
       this.submitting = false;
       console.log(error);

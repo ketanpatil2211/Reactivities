@@ -3,14 +3,12 @@ import { history} from '../..';
 import { IActivity } from "../models/activity";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
-
-
 axios.interceptors.response.use(undefined,error =>{
-  console.log(error.response); //not showing anything on console
-  console.log("roshan");
+  console.log(error); //not showing anything on console
   if(error)
   {
-        history.push('/notfound');
+      console.log(error.response.status)
+      history.push('/notfound');
   }
 })
 const responseBody = (response: AxiosResponse) => response.data; //not clear

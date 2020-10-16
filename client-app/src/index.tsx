@@ -6,8 +6,11 @@ import * as serviceWorker from "./serviceWorker";
 import {  Router } from "react-router-dom";
 import ScrollToTop from "./app/layout/ScrollToTop";
 import { createBrowserHistory } from 'history';
+import 'react-widgets/dist/css/react-widgets.css';
+import dateFnsLocalizer from 'react-widgets-date-fns';
 
-export const history =createBrowserHistory();
+dateFnsLocalizer();
+export const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>

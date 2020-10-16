@@ -27,7 +27,6 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   if (loadingInitial) {
     return <LoadingComponent content={"Loading activity..."} />;
- 
   }
   if(!activity)
   {
