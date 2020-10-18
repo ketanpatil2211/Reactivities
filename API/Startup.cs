@@ -1,8 +1,6 @@
-using System.Reflection;
 using API.Middleware;
 using Application.Activities;
 using Application.Interfaces;
-using Application.User;
 using Domain;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -20,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+
 
 namespace API
 {
@@ -42,6 +41,7 @@ namespace API
                                   cfg.RegisterValidatorsFromAssemblyContaining<Create>();
                               }
                      );
+
 
             services.AddDbContext<DataContext>(opt =>
             {
@@ -68,7 +68,7 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-
+            services.AddScoped<IUserAccessor, UserAccessor>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(opt =>
