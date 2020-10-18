@@ -13,6 +13,7 @@ import { SelectInput } from "../../../../app/common/form/SelectInput";
 import { category } from "../../../../app/common/options/Category";
 import  DateInput  from "../../../../app/common/form/DateInput";
 import { LoadingComponent } from "../../../../app/layout/LoadingComponent";
+import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 
 interface DetailParams {
@@ -22,8 +23,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const activityStore = useContext(ActivityStore);
-
+  const rootStore = useContext(RootStoreContext);
   const {
     activity: initialFormState,
     createActivity,
@@ -32,7 +32,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     loadActivity,
     clearActivity
     
-  } = activityStore;
+  } = rootStore.activityStore;
 
   const [activity, setActivity] = useState<IActivity>({
     id: "",
@@ -84,7 +84,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
         <Segment clearing>
          <FinalForm 
          initialValues={activity}
-         onSubmit={handleFinalFormSubmit} //handleFinalFormSubmit is passed on to render by final form
+         onSubmit={handleFinalFormSubmit} 
          render={({handleSubmit})=>(
           <Form onSubmit={handleSubmit} loading={loading}>
           <Field

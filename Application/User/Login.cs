@@ -54,7 +54,7 @@ namespace Application.User
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
                 // if (result.Succeeded)
                 // {
-                //return user;
+
                 return new User
                 {
                     DisplayName = user.DisplayName,

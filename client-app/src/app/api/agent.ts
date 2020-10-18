@@ -1,15 +1,18 @@
 import axios, { AxiosResponse } from "axios";
 import { history} from '../..';
 import { IActivity } from "../models/activity";
+import { IUser, IUserFormValues } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 axios.interceptors.response.use(undefined,error =>{
   console.log(error); //not showing anything on console
-  if(error)
-  {
-      console.log(error.response.status)
-      history.push('/notfound');
-  }
+  // if(error)
+  // {
+  //     console.log(error.response.status)
+  //     history.push('/notfound');
+  // }
+  throw error.response;
+
 })
 const responseBody = (response: AxiosResponse) => response.data; //not clear
 
@@ -34,4 +37,10 @@ const Activities = {
     requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.del(`/activities/${id}`),
 };
-export default { Activities };
+const User ={
+ current :():Promise<IUser> =>requests.get('/user'),
+ login:(user:IUserFormValues):Promise<IUser>=>requests.post(`/user/login`,user),
+ register:(user:IUserFormValues):Promise<IUser>=>requests.post(`/user/register`,user),
+
+}
+export default { Activities,User };
