@@ -1,9 +1,7 @@
-import React, { FormEvent, useState, useContext, useEffect} from "react";
+import React, {  useState, useContext, useEffect} from "react";
 import { Button, Form, Grid, GridColumn, Segment } from "semantic-ui-react";
 import {  IActivity } from "../../../../app/models/activity";
-
 import { v4 as uuid } from "uuid";
-import ActivityStore from "../../../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
 import {Form as FinalForm,Field } from 'react-final-form';
@@ -11,8 +9,7 @@ import  TextInput  from "../../../../app/common/form/TextInput";
 import  TextArea   from '../../../../app/common/form/TextArea';
 import { SelectInput } from "../../../../app/common/form/SelectInput";
 import { category } from "../../../../app/common/options/Category";
-import  DateInput  from "../../../../app/common/form/DateInput";
-import { LoadingComponent } from "../../../../app/layout/LoadingComponent";
+
 import { RootStoreContext } from "../../../../app/stores/rootStore";
 
 
@@ -25,13 +22,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const {
-    activity: initialFormState,
     createActivity,
     editActivity,
     submitting,
-    loadActivity,
-    clearActivity
-    
+    loadActivity
   } = rootStore.activityStore;
 
   const [activity, setActivity] = useState<IActivity>({

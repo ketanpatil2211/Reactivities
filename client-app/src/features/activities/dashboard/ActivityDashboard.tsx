@@ -1,7 +1,7 @@
 import { Grid } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, Fragment, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from    "../../../app/stores/rootStore"; 
 

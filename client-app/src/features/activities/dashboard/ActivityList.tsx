@@ -3,7 +3,7 @@ import { Item, Label } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { ActivityListItem } from "./Dashboard/ActivityListItem";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-
+import {format} from 'date-fns';
 const ActivityList: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { activitiesByDate } = rootStore.activityStore;
@@ -13,7 +13,7 @@ const ActivityList: React.FC = () => {
       {activitiesByDate.map(([group, activities]) => (
         <Fragment key={group}>
           <Label color="blue" size="large">
-            {group}
+            {format(group,'eeee do MMMM')}
           </Label>
 
           <Item.Group divided>
