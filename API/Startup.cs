@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-
+using AutoMapper;
 
 namespace API
 {
@@ -52,7 +52,7 @@ namespace API
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
             }));
             services.AddMediatR(typeof(List.Handler).Assembly);
-
+            services.AddAutoMapper(typeof(List.Handler));
             services.AddControllers(
                opt =>
                {
