@@ -4,6 +4,7 @@ import agent from "../api/agent";
 import { IActivity } from "../models/activity";
 import { history} from '../..';
 import { RootStore } from "./rootStore";
+import { setActivityProps,createAttendee } from "../utils/util";
 
 
 export default class ActivityStore {
@@ -48,10 +49,10 @@ export default class ActivityStore {
     this.loadingInitial = true;
     try {
       const activities = await agent.Activities.list();
-
       runInAction(() => {
         activities.forEach((activity) => {
           activity.date = activity.date.split(".")[0];
+          setActivityProps(activity,this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });
         this.loadingInitial = false;
@@ -74,6 +75,7 @@ export default class ActivityStore {
       try {
         activity = await agent.Activities.details(id);
         runInAction(() => {
+          setActivityProps(activity,this.rootStore.userStore.user!);
           this.activity = activity;
           this.activityRegistry.set(activity.id,activity);
           this.loadingInitial = false;
@@ -148,6 +150,28 @@ export default class ActivityStore {
       });
     }
   };
+
+@action attendActivity =()=>{
+   const attendee =createAttendee(this.rootStore.userStore.user!);  
+   if(this.activity)
+   {
+     this.activity.attendees.push(attendee);
+     this.activity.isGoing=true;
+     this.activityRegistry.set(this.activity.id,this.activity);
+   }
+}
+@action cancelAttendance =()=>{
+  if(this.activity)
+  {
+    this.activity.attendees = this.activity.attendees.filter(
+      a => a.username !== this.rootStore.userStore.user!.username
+    );
+    this.activity.isGoing=false;
+    this.activityRegistry.set(this.activity.id,this.activity);
+    console.log(this.activity.attendees.length);
+
+  }
+}
 }
 
 

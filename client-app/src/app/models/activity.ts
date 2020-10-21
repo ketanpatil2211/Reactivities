@@ -6,6 +6,9 @@ export interface IActivity {
   date: string;
   city: string;
   venue: string;
+  isGoing:boolean;
+  isHost:boolean;//these both properties are for the currently logged in user
+  attendees :IAttendee[];
 }
 
 // export interface IActivityFormValues extends Partial<IActivity> {
@@ -26,3 +29,10 @@ export interface IActivity {
 //       Object.assign(this, init);
 //   }
 // }
+
+export interface IAttendee {
+username:string;
+displayName:string;
+image:string;
+isHost:boolean;
+}

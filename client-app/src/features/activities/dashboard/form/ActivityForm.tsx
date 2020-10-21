@@ -36,6 +36,9 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     category: "",
     venue: "",
     city: "",
+    attendees:undefined!,
+    isGoing:false,
+    isHost:false
   });
 
   const [loading,setLoading]=useState(false);
