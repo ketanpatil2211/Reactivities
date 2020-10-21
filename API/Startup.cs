@@ -49,10 +49,6 @@ namespace API
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
 
             });
-
-
-
-
             services.AddCors(opt => opt.AddPolicy("CorsPolicy", policy =>
             {
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
@@ -75,6 +71,16 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsActivityHost", policy =>
+                {
+
+                    policy.Requirements.Add(new IsHostRequirement());
+                });
+            });
+
+            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(opt =>
