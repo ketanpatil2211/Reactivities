@@ -21,7 +21,7 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({
   activity,
 }) => {
   const rootStore=useContext(RootStoreContext);
-const {attendActivity,cancelAttendance}=rootStore.activityStore;
+const {attendActivity,cancelAttendance,loading}=rootStore.activityStore;
   return (
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
@@ -58,9 +58,9 @@ const {attendActivity,cancelAttendance}=rootStore.activityStore;
             Manage Event
           </Button>
        ):activity.isGoing?(
-            <Button onClick={cancelAttendance}>Cancel attendance</Button> 
+            <Button onClick={cancelAttendance} loading={loading}>Cancel attendance</Button> 
        ):(
-            <Button onClick={attendActivity} color="teal">Join Activity</Button>
+            <Button onClick={attendActivity} color="teal" loading={loading}>Join Activity</Button>
        )}
       </Segment>
     </Segment.Group>
