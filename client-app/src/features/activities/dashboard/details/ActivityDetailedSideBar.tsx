@@ -10,7 +10,6 @@ interface Iprops {
 
  const ActivityDetailedSideBar:React.FC<Iprops> = ({attendees}) => {
   
-  const isHost=false;
   return (
     <Fragment>
       <Segment
@@ -28,12 +27,12 @@ interface Iprops {
         <List relaxed divided>
           { attendees.map((attendee)=>(
                 <Item key={attendee.username} style={{ position: "relative" }}>
-                {isHost &&  <Label
+                {attendee.isHost &&  <Label
                   style={{ position: "absolute" }}
                   color="orange"
                   ribbon="right"
                 >
-                  {attendee.displayName}
+                  Host
                 </Label> }
                 <Image size="tiny" src={attendee.image || "/assets/user.png"} />
                 <Item.Content verticalAlign="middle">

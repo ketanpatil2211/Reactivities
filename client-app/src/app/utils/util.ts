@@ -3,7 +3,6 @@ import { IActivity, IAttendee } from "../models/activity";
 import { IUser } from "../models/user";
 
 export const setActivityProps =(activity:IActivity,user:IUser)=>{
-
     activity.isGoing=activity.attendees
     .some(a=>a.username===user.username);
     activity.isHost=activity.attendees

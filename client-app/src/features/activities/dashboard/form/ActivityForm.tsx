@@ -36,7 +36,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     category: "",
     venue: "",
     city: "",
-    attendees:undefined!,
+    attendees:[],
     isGoing:false,
     isHost:false
   });
@@ -64,6 +64,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
         ...activity,
         id: uuid(),
       };
+      console.log("handle form "+activity.id);
       createActivity(newActivity).then(() => {
         history.push(`/activities/${newActivity.id}`);
       });
