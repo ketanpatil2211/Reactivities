@@ -75,7 +75,7 @@ export default class ActivityStore {
         activity = await agent.Activities.details(id);
         console.log("in the load act "+activity.title);
         runInAction(() => {
-        //  setActivityProps(activity,this.rootStore.userStore.user!);
+          setActivityProps(activity,this.rootStore.userStore.user!);
           this.activity = activity;
           this.activityRegistry.set(activity.id,activity);
           this.loadingInitial = false;
@@ -100,7 +100,7 @@ export default class ActivityStore {
     this.submitting = true;
     
     try {
-      console.log("In the create Activity"+activity.title);
+      console.log("In the create Activity"+activity.id);
       await agent.Activities.create(activity);
       runInAction(() => {
         const attendee=createAttendee(this.rootStore.userStore.user!);
@@ -133,7 +133,10 @@ export default class ActivityStore {
       });
       history.push(`/activities/${activity.id}`);
     } catch (error) {
-      this.submitting = false;
+      runInAction(()=>{
+        this.submitting = false;
+      })
+      
       console.log(error);
     }
   };

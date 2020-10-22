@@ -39,7 +39,7 @@ const {attendActivity,cancelAttendance,loading}=rootStore.activityStore;
                   content={activity.title}
                   style={{ color: "white" }}
                 />
-                <p>{activity.date}</p>
+               <p> {activity.date}</p>
                 <p>
                   Hosted by <strong>Bob</strong>
                 </p>

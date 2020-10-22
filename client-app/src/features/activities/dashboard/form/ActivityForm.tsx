@@ -54,17 +54,14 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     match.params.id
   ]);
   
-
- 
  const handleFinalFormSubmit=(values:any)=>{
-   console.log(values);
    const {...activity } = values;
      if (!activity.id) {
       let newActivity = {
         ...activity,
         id: uuid(),
       };
-      console.log("handle form "+activity.id);
+      newActivity.date= new Date("2020-08-21 11:54:56.28").toISOString();
       createActivity(newActivity).then(() => {
         history.push(`/activities/${newActivity.id}`);
       });
