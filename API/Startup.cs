@@ -19,6 +19,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
+using System.Threading.Tasks;
+using API.SignalR;
 
 namespace API
 {
@@ -55,6 +57,7 @@ namespace API
             }));
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(List.Handler));
+            services.AddSignalR();
             services.AddControllers(
                opt =>
                {
@@ -71,6 +74,7 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("IsActivityHost", policy =>
@@ -94,6 +98,19 @@ namespace API
                        ValidateAudience = false, //this is for validating incoming urls
                        ValidateIssuer = false  //this is for validating the server url from where it is issued
                    };
+                   opt.Events = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           var accessToken = context.Request.Query["access_Token"];
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                           {
+                               context.Token = accessToken; //for signalR
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
                });
         }
 
@@ -113,6 +130,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

@@ -5,6 +5,7 @@ import { IActivity } from "../models/activity";
 import { history} from '../..';
 import { RootStore } from "./rootStore";
 import { setActivityProps,createAttendee } from "../utils/util";
+import { HubConnection } from "@microsoft/signalr";
 
 
 export default class ActivityStore {
@@ -20,7 +21,8 @@ export default class ActivityStore {
   @observable loadingInitial = false;
   @observable submitting = false;
   @observable target = "";
-  @observable loading=false;
+  @observable loading=false; 
+  @observable.ref hubConnection : HubConnection | null=null;
 
   @computed get activitiesByDate() {
     return this.groupActivitiesByDate(
@@ -203,18 +205,13 @@ export default class ActivityStore {
       this.activityRegistry.set(this.activity.id,this.activity);
       this.loading=false;
     }
-
    })
-   
   }
   catch(error)
   {
     this.loading=false;
     console.log(error);
   }
-  
-  
- 
 }
 }
 
